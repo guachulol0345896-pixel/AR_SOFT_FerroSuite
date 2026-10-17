@@ -4,31 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inventario — FerroSuite</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
-<body>
+<body data-pagina="inventario">
 
-  <header class="site-header">
-    <div class="container">
-      <a class="brand" href="index.html">
-        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M22 4a6 6 0 0 0-7.9 6.4L4 20.5V26h5.5l10.1-10.1A6 6 0 0 0 22 4Z" stroke="#F2994A" stroke-width="2" stroke-linejoin="round"/>
-          <circle cx="21.5" cy="8.5" r="1.6" fill="#F2994A"/>
-        </svg>
-        <span class="brand-name">FerroSuite<small>ERP para ferreterías pyme</small></span>
-      </a>
-
-      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
-
-      <nav class="site-nav" aria-label="Navegación principal">
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="inventario.html" aria-current="page">Inventario</a></li>
-          <li><a href="proveedores.html">Proveedores</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <div data-componente="encabezado"></div>
 
   <main>
     <section class="module-hero">
@@ -45,69 +28,58 @@
 
     <section class="section">
       <div class="container">
+        <div id="resumen-inventario" class="tarjetas-resumen"></div>
+        <div id="alerta-inventario" class="bloque-gap"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0;">
+      <div class="container">
         <div class="section-head">
           <h2>Catálogo de productos</h2>
+          <p>Busca por SKU o por nombre. El estado se calcula con el stock mínimo de cada producto.</p>
+        </div>
+        <div class="barra-herramientas">
+          <input type="search" id="buscar-producto" placeholder="Buscar por SKU o nombre" aria-label="Buscar producto" />
+        </div>
+        <div id="tabla-productos"></div>
+
+        <div class="paneles-dobles bloque-gap">
+          <div>
+            <h3>Registrar movimiento</h3>
+            <div id="form-movimiento"></div>
+          </div>
+          <div>
+            <h3>Agregar producto</h3>
+            <div id="form-producto"></div>
+          </div>
         </div>
 
-        <div class="table-wrap">
-          <table id="tabla-productos" class="data-table">
-            <thead>
-              <tr>
-                <th>SKU</th>
-                <th>Nombre</th>
-                <th>Unidad</th>
-                <th>Stock actual</th>
-                <th>Stock mínimo</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- se llena con js/controllers/inventario.js -->
-            </tbody>
-          </table>
+        <div class="section-head bloque-gap">
+          <h2>Últimos movimientos</h2>
+          <p>Entradas y salidas registradas en esta sesión.</p>
         </div>
-
-        <div class="section-head" style="margin-top:40px;">
-          <h2>Agregar producto</h2>
-          <p>Formulario de prueba: agrega una fila a la tabla de arriba, no guarda datos todavía.</p>
-        </div>
-
-        <form id="form-producto" class="form-grid">
-          <label>SKU
-            <input type="text" name="sku" placeholder="FER-0001" />
-          </label>
-          <label>Nombre
-            <input type="text" name="nombre" required />
-          </label>
-          <label>Unidad de medida
-            <select name="unidad">
-              <option>Unidad</option>
-              <option>Metro</option>
-              <option>Kilogramo</option>
-              <option>Varilla</option>
-            </select>
-          </label>
-          <label>Stock actual
-            <input type="number" name="stockActual" min="0" required />
-          </label>
-          <label>Stock mínimo
-            <input type="number" name="stockMinimo" min="0" required />
-          </label>
-          <button type="submit" class="btn btn-primary">Agregar producto</button>
-        </form>
+        <div id="tabla-movimientos"></div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <span>FerroSuite — Proyecto de Arquitectura de Software, sexto semestre.</span>
-      <a href="https://github.com/guachulol0345896-pixel/FerroSuite-erp" target="_blank" rel="noopener">Ver repositorio en GitHub</a>
-    </div>
-  </footer>
+  <div data-componente="pie"></div>
 
+  <script src="js/components/util.js"></script>
+  <script src="js/components/etiqueta.js"></script>
+  <script src="js/components/tarjetaResumen.js"></script>
+  <script src="js/components/aviso.js"></script>
+  <script src="js/components/tabla.js"></script>
+  <script src="js/components/formulario.js"></script>
+  <script src="js/components/panelAlerta.js"></script>
+  <script src="js/components/encabezado.js"></script>
+  <script src="js/components/pie.js"></script>
   <script src="js/main.js"></script>
   <script src="js/models/data.js"></script>
+  <script src="js/services/inventarioService.js"></script>
+  <script src="js/services/proveedoresService.js"></script>
+  <script src="js/services/ordenesService.js"></script>
   <script src="js/controllers/inventario.js"></script>
 </body>
 </html>

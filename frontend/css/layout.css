@@ -1,0 +1,190 @@
+/* FerroSuite — Estructura de página: encabezado, hero, secciones, migas de pan y pie. */
+
+/* ---------------- Header / navegación ---------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--steel);
+  border-bottom: 4px solid var(--orange);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  flex: none;
+}
+
+.brand-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.brand-name small {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--gray-light);
+  letter-spacing: 0.3px;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  display: block;
+  text-decoration: none;
+  color: #d9dee6;
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 10px 14px;
+  border-radius: 3px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.site-nav a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
+.site-nav a[aria-current="page"] {
+  color: #fff;
+  background: var(--orange-dark);
+}
+
+/* ---------------- Hero ---------------- */
+
+.hero {
+  padding: 64px 0 56px;
+}
+
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.hero h1 {
+  font-family: var(--font-head);
+  font-size: 46px;
+  line-height: 1.08;
+  margin: 0 0 18px;
+  color: var(--steel-dark);
+  max-width: 14ch;
+}
+
+.hero p.lead {
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 46ch;
+  margin: 0 0 26px;
+}
+
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+
+/* ---------------- Sección: módulos ---------------- */
+
+.section { padding: 56px 0; }
+
+.section-head { max-width: 62ch; margin-bottom: 30px; }
+
+.section-head h2 {
+  font-family: var(--font-head);
+  font-size: 30px;
+  color: var(--steel-dark);
+  margin: 0 0 8px;
+}
+
+.section-head p { color: var(--ink-soft); margin: 0; }
+
+
+/* ---------------- Página interna (placeholder de módulo) ---------------- */
+
+.module-hero {
+  padding: 48px 0 20px;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+
+.breadcrumb a { text-decoration: none; color: var(--steel); font-weight: 600; }
+
+.module-hero h1 {
+  font-family: var(--font-head);
+  font-size: 34px;
+  color: var(--steel-dark);
+  margin: 0 0 10px;
+}
+
+.tag-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-code);
+  font-size: 12px;
+  color: var(--orange-dark);
+  border: 1px solid var(--orange);
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin-bottom: 14px;
+}
+
+
+/* ---------------- Footer ---------------- */
+
+.site-footer {
+  background: var(--steel-dark);
+  color: var(--gray-light);
+  padding: 26px 0;
+  margin-top: 40px;
+}
+
+.site-footer .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.site-footer a { color: #fff; text-decoration: none; font-weight: 600; }
+

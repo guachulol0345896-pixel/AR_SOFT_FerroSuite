@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingresar — FerroSuite</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body data-pagina="login">
+
+  <div data-componente="encabezado"></div>
+
+  <main>
+    <section class="module-hero">
+      <div class="container">
+        <p class="breadcrumb"><a href="index.html">Inicio</a> / Ingresar</p>
+        <h1>Ingresar a FerroSuite</h1>
+        <p class="lead">Elige tu usuario y tu rol para entrar al sistema.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="tarjeta-login">
+          <div id="form-login"></div>
+          <p class="nota-demo">
+            Pantalla de demostración: todavía no hay autenticación real. El acceso por rol
+            (dueño, encargado de bodega, vendedor, contador) se construirá en una entrega posterior.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-componente="pie"></div>
+
+  <script src="js/components/util.js"></script>
+  <script src="js/components/etiqueta.js"></script>
+  <script src="js/components/tarjetaResumen.js"></script>
+  <script src="js/components/aviso.js"></script>
+  <script src="js/components/tabla.js"></script>
+  <script src="js/components/formulario.js"></script>
+  <script src="js/components/panelAlerta.js"></script>
+  <script src="js/components/encabezado.js"></script>
+  <script src="js/components/pie.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/models/data.js"></script>
+  <script src="js/services/inventarioService.js"></script>
+  <script src="js/services/proveedoresService.js"></script>
+  <script src="js/services/ordenesService.js"></script>
+  <script src="js/controllers/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Órdenes de compra — FerroSuite</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body data-pagina="ordenes">
+
+  <div data-componente="encabezado"></div>
+
+  <main>
+    <section class="module-hero">
+      <div class="container">
+        <p class="breadcrumb"><a href="index.html">Inicio</a> / Órdenes de compra</p>
+        <span class="tag-progress">MOD-02 · prototipo</span>
+        <h1>Órdenes de compra</h1>
+        <p class="lead">
+          Pedidos a proveedores para reponer los productos que se están acabando. El
+          encargado de bodega las genera y el dueño las aprueba. Datos de prueba.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div id="resumen-ordenes" class="tarjetas-resumen"></div>
+
+        <div class="section-head bloque-gap">
+          <h2>Órdenes registradas</h2>
+        </div>
+        <div id="tabla-ordenes"></div>
+
+        <div class="section-head bloque-gap">
+          <h2>Generar orden de compra</h2>
+          <p>Los productos en riesgo aparecen primero en la lista. La orden queda pendiente hasta que se apruebe.</p>
+        </div>
+        <div id="form-orden"></div>
+      </div>
+    </section>
+  </main>
+
+  <div data-componente="pie"></div>
+
+  <script src="js/components/util.js"></script>
+  <script src="js/components/etiqueta.js"></script>
+  <script src="js/components/tarjetaResumen.js"></script>
+  <script src="js/components/aviso.js"></script>
+  <script src="js/components/tabla.js"></script>
+  <script src="js/components/formulario.js"></script>
+  <script src="js/components/panelAlerta.js"></script>
+  <script src="js/components/encabezado.js"></script>
+  <script src="js/components/pie.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/models/data.js"></script>
+  <script src="js/services/inventarioService.js"></script>
+  <script src="js/services/proveedoresService.js"></script>
+  <script src="js/services/ordenesService.js"></script>
+  <script src="js/controllers/ordenes.js"></script>
+</body>
+</html>

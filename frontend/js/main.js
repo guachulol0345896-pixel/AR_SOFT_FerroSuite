@@ -1,12 +1,15 @@
-// FerroSuite — interacción mínima del frontend inicial: abrir/cerrar el
-// menú de navegación en pantallas pequeñas. Sin dependencias externas.
-document.addEventListener("DOMContentLoaded", function () {
-  var toggle = document.querySelector(".nav-toggle");
-  var nav = document.querySelector(".site-nav");
-  if (!toggle || !nav) return;
+// FerroSuite — Arranque del frontend.
+// Dibuja los componentes comunes (encabezado y pie) en cada pantalla y deja
+// listo el menú móvil. Cada pantalla carga después su propio controlador.
+document.addEventListener("DOMContentLoaded", () => {
+  const pagina = document.body.dataset.pagina || "";
 
-  toggle.addEventListener("click", function () {
-    var isOpen = nav.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-  });
+  const zonaEncabezado = document.querySelector('[data-componente="encabezado"]');
+  if (zonaEncabezado) {
+    zonaEncabezado.innerHTML = FerroSuite.encabezado.html(pagina);
+    FerroSuite.encabezado.activarMenuMovil(zonaEncabezado);
+  }
+
+  const zonaPie = document.querySelector('[data-componente="pie"]');
+  if (zonaPie) zonaPie.innerHTML = FerroSuite.pie.html();
 });

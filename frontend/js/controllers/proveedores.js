@@ -1,43 +1,42 @@
-// FerroSuite — Controlador de Proveedores
-// Pinta la tabla a partir del modelo y atiende el formulario de "Agregar proveedor".
-// No hay conexión a base de datos ni lógica de negocio real todavía.
-
-function pintarTablaProveedores() {
-  const tbody = document.querySelector("#tabla-proveedores tbody");
-  if (!tbody) return;
-  tbody.innerHTML = "";
-  modeloProveedores.forEach((p) => {
-    const fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${p.nombre}</td>
-      <td>${p.nit}</td>
-      <td>${p.telefono}</td>
-      <td>${p.diasEntrega}</td>
-      <td>${p.cumplimiento}</td>
-    `;
-    tbody.appendChild(fila);
-  });
-}
-
-function atenderFormularioProveedor() {
-  const form = document.querySelector("#form-proveedor");
-  if (!form) return;
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const nuevo = {
-      nombre: form.nombre.value,
-      nit: form.nit.value,
-      telefono: form.telefono.value,
-      diasEntrega: Number(form.diasEntrega.value) || 0,
-      cumplimiento: "—",
-    };
-    modeloProveedores.push(nuevo);
-    pintarTablaProveedores();
-    form.reset();
-  });
-}
-
+// FerroSuite — Controlador de Proveedores.
 document.addEventListener("DOMContentLoaded", () => {
-  pintarTablaProveedores();
-  atenderFormularioProveedor();
+  const servicio = FerroSuite.proveedoresService;
+  const esc = FerroSuite.util.esc;
+  const zonaResumen = document.querySelector("#resumen-proveedores");
+  const zonaTabla = document.querySelector("#tabla-proveedores");
+
+  const columnas = [
+    { titulo: "Nombre", valor: (p) => esc(p.nombre) },
+    { titulo: "NIT", valor: (p) => esc(p.nit) },
+    { titulo: "Teléfono", valor: (p) => esc(p.telefono) },
+    { titulo: "Días de entrega", valor: (p) => p.diasEntrega },
+    { titulo: "Cumplimiento", valor: (p) => esc(p.cumplimiento) },
+  ];
+
+  function pintarTodo() {
+    const rapido = servicio.masRapido();
+    FerroSuite.tarjetaResumen.render(zonaResumen, [
+      { titulo: "Proveedores", valor: modeloProveedores.length, detalle: "registrados" },
+      { titulo: "Entrega más rápida", valor: rapido.diasEntrega + " días", detalle: rapido.nombre, tono: "ok" },
+    ]);
+    FerroSuite.tabla.render(zonaTabla, columnas, modeloProveedores, "Todavía no hay proveedores registrados.");
+  }
+
+  FerroSuite.formulario.render(document.querySelector("#form-proveedor"), {
+    textoBoton: "Agregar proveedor",
+    textoExito: "Proveedor agregado.",
+    campos: [
+      { nombre: "nombre", etiqueta: "Nombre", requerido: true },
+      { nombre: "nit", etiqueta: "NIT", placeholder: "900123456-7", requerido: true },
+      { nombre: "telefono", etiqueta: "Teléfono" },
+      { nombre: "diasEntrega", etiqueta: "Días de entrega", tipo: "number", min: 0, requerido: true },
+    ],
+    alEnviar(datos) {
+      const errores = servicio.agregarProveedor(datos);
+      if (!errores.length) pintarTodo();
+      return errores;
+    },
+  });
+
+  pintarTodo();
 });

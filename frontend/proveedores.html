@@ -4,31 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Proveedores — FerroSuite</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
-<body>
+<body data-pagina="proveedores">
 
-  <header class="site-header">
-    <div class="container">
-      <a class="brand" href="index.html">
-        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M22 4a6 6 0 0 0-7.9 6.4L4 20.5V26h5.5l10.1-10.1A6 6 0 0 0 22 4Z" stroke="#F2994A" stroke-width="2" stroke-linejoin="round"/>
-          <circle cx="21.5" cy="8.5" r="1.6" fill="#F2994A"/>
-        </svg>
-        <span class="brand-name">FerroSuite<small>ERP para ferreterías pyme</small></span>
-      </a>
-
-      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
-
-      <nav class="site-nav" aria-label="Navegación principal">
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="inventario.html">Inventario</a></li>
-          <li><a href="proveedores.html" aria-current="page">Proveedores</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <div data-componente="encabezado"></div>
 
   <main>
     <section class="module-hero">
@@ -45,60 +28,38 @@
 
     <section class="section">
       <div class="container">
-        <div class="section-head">
+        <div id="resumen-proveedores" class="tarjetas-resumen"></div>
+
+        <div class="section-head bloque-gap">
           <h2>Proveedores registrados</h2>
         </div>
+        <div id="tabla-proveedores"></div>
 
-        <div class="table-wrap">
-          <table id="tabla-proveedores" class="data-table">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>NIT</th>
-                <th>Teléfono</th>
-                <th>Días de entrega</th>
-                <th>Cumplimiento</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- se llena con js/controllers/proveedores.js -->
-            </tbody>
-          </table>
-        </div>
-
-        <div class="section-head" style="margin-top:40px;">
+        <div class="section-head bloque-gap">
           <h2>Agregar proveedor</h2>
-          <p>Formulario de prueba: agrega una fila a la tabla de arriba, no guarda datos todavía.</p>
+          <p>Valida que el NIT no esté repetido y que los datos obligatorios estén completos.</p>
         </div>
-
-        <form id="form-proveedor" class="form-grid">
-          <label>Nombre
-            <input type="text" name="nombre" required />
-          </label>
-          <label>NIT
-            <input type="text" name="nit" required />
-          </label>
-          <label>Teléfono
-            <input type="text" name="telefono" />
-          </label>
-          <label>Días de entrega
-            <input type="number" name="diasEntrega" min="0" required />
-          </label>
-          <button type="submit" class="btn btn-primary">Agregar proveedor</button>
-        </form>
+        <div id="form-proveedor"></div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <span>FerroSuite — Proyecto de Arquitectura de Software, sexto semestre.</span>
-      <a href="https://github.com/guachulol0345896-pixel/FerroSuite-erp" target="_blank" rel="noopener">Ver repositorio en GitHub</a>
-    </div>
-  </footer>
+  <div data-componente="pie"></div>
 
+  <script src="js/components/util.js"></script>
+  <script src="js/components/etiqueta.js"></script>
+  <script src="js/components/tarjetaResumen.js"></script>
+  <script src="js/components/aviso.js"></script>
+  <script src="js/components/tabla.js"></script>
+  <script src="js/components/formulario.js"></script>
+  <script src="js/components/panelAlerta.js"></script>
+  <script src="js/components/encabezado.js"></script>
+  <script src="js/components/pie.js"></script>
   <script src="js/main.js"></script>
   <script src="js/models/data.js"></script>
+  <script src="js/services/inventarioService.js"></script>
+  <script src="js/services/proveedoresService.js"></script>
+  <script src="js/services/ordenesService.js"></script>
   <script src="js/controllers/proveedores.js"></script>
 </body>
 </html>
