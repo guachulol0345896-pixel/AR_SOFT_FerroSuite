@@ -26,7 +26,7 @@
 | Entregable | Qué contiene | Dónde está |
 |---|---|---|
 | Documento del proyecto, fases 1 y 2 | Problemática, necesidad, pregunta problema, objetivos, arquitectura en capas, modelo relacional, UML, lenguajes, herramientas y metodología. | [`docs/ERP.docx`](docs/ERP.docx) y secciones 1 a 12 de este README |
-| Documento maestro actualizado (fase 3) | El documento anterior más los requerimientos funcionales y no funcionales, los marcos conceptual y contextual y el marco integrador del servicio de IA. 26 páginas, con referencias en APA. | [`docs/FerroSuite_Documento_Maestro.docx`](docs/FerroSuite_Documento_Maestro.docx) y secciones 13 a 18 de este README |
+| Requerimientos y marcos (fase 3) | Requerimientos funcionales y no funcionales, marcos conceptual y contextual y marco integrador del servicio de IA, con referencias en APA. | Secciones 13 a 18 de este README |
 | Diagramas de arquitectura y UML | Diagrama de paquetes, modelo relacional, casos de uso, clases y componentes, más el diagrama de integración del servicio de IA. | [`diagrams/`](diagrams/) y [`docs/img/`](docs/img/) |
 | Prototipo web | Pantallas de Inicio, Inventario, Proveedores, Órdenes de compra e Ingreso, con componentes reutilizables, controladores, servicios y datos de prueba. | [`frontend/`](frontend/) |
 | Relación requerimientos, pantallas y código | Tabla que enlaza cada requerimiento funcional con su pantalla y su archivo. | [`docs/relacion-requerimientos-prototipo.md`](docs/relacion-requerimientos-prototipo.md) |
@@ -51,7 +51,6 @@ FerroSuite-erp/
 ├── README.md                     Este documento
 ├── docs/                         Documentación del proyecto
 │   ├── ERP.docx                  Documento de las fases 1 y 2
-│   ├── FerroSuite_Documento_Maestro.docx   Documento maestro actualizado (fases 1, 2 y 3)
 │   ├── relacion-requerimientos-prototipo.md
 │   └── img/                      Figuras del documento
 ├── diagrams/                     Diagramas UML y de arquitectura de las sesiones 3 y 4
