@@ -21,7 +21,7 @@
         <h1>Órdenes de compra</h1>
         <p class="lead">
           Pedidos a proveedores para reponer los productos que se están acabando. El
-          encargado de bodega las genera y el dueño las aprueba. Datos de prueba.
+          encargado de bodega las genera y el dueño las aprueba. Se guardan en la base de datos.
         </p>
       </div>
     </section>
@@ -33,6 +33,7 @@
         <div class="section-head bloque-gap">
           <h2>Órdenes registradas</h2>
         </div>
+        <div id="mensajes-ordenes" class="form-mensajes"></div>
         <div id="tabla-ordenes"></div>
 
         <div class="section-head bloque-gap">
@@ -57,6 +58,7 @@
   <script src="js/components/pie.js"></script>
   <script src="js/main.js"></script>
   <script src="js/models/data.js"></script>
+  <script src="js/comunicacion/api.js"></script>
   <script src="js/services/inventarioService.js"></script>
   <script src="js/services/proveedoresService.js"></script>
   <script src="js/services/ordenesService.js"></script>

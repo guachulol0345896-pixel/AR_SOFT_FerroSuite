@@ -1,23 +1,30 @@
-// FerroSuite — Servicio de Órdenes de compra (capa de Aplicación del prototipo).
+// FerroSuite — Servicio de Órdenes de compra del frontend.
 window.FerroSuite = window.FerroSuite || {};
 
 FerroSuite.ordenesService = {
-  // RF08: crea una orden en estado "Pendiente de aprobación".
-  crearOrden(d) {
-    const errores = [];
-    const cantidad = Number(d.cantidad);
-    if (!d.sku) errores.push("Elige un producto.");
-    if (!d.nit) errores.push("Elige un proveedor.");
-    if (d.cantidad === "" || isNaN(cantidad) || cantidad <= 0) errores.push("La cantidad debe ser mayor que 0.");
-    if (errores.length) return errores;
-    const numero = String(modeloOrdenes.length + 1).padStart(3, "0");
-    modeloOrdenes.push({ codigo: "OC-" + numero, sku: d.sku, nit: d.nit, cantidad, estado: "Pendiente de aprobación" });
-    return [];
+  listar() {
+    return FerroSuite.api.pedir("ordenes.listar");
   },
 
-  // RF09: aprueba una orden pendiente.
+  validar(d) {
+    const errores = [];
+    if (!d.sku) errores.push("Elige un producto.");
+    if (!d.nitProveedor) errores.push("Elige un proveedor.");
+    if (d.cantidad === "" || isNaN(Number(d.cantidad)) || Number(d.cantidad) <= 0) errores.push("La cantidad debe ser un número mayor que 0.");
+    return errores;
+  },
+
+  // RF08: la orden queda pendiente de aprobación.
+  crear(d) {
+    return FerroSuite.api.pedir("ordenes.crear", { sku: d.sku, nitProveedor: d.nitProveedor, cantidad: Number(d.cantidad) });
+  },
+
+  // RF09: desde que se aprueba corre el plazo de pago (15 días).
   aprobar(codigo) {
-    const orden = modeloOrdenes.find((o) => o.codigo === codigo);
-    if (orden) orden.estado = "Aprobada";
+    return FerroSuite.api.pedir("ordenes.aprobar", { codigo });
+  },
+
+  pagar(codigo) {
+    return FerroSuite.api.pedir("ordenes.pagar", { codigo });
   },
 };

@@ -20,8 +20,9 @@
         <span class="tag-progress">MOD-01 · prototipo</span>
         <h1>Inventario</h1>
         <p class="lead">
-          Catálogo de productos con su unidad de medida y su nivel de stock. Los datos
-          que se ven aquí son de prueba, todavía no vienen de una base de datos.
+          Catálogo de productos con unidades mixtas (metros, kilos, unidades, varillas),
+          entradas y salidas con historial, y alertas de productos por agotarse. Todo se
+          consulta y se guarda en la base de datos SQL Server a través del backend.
         </p>
       </div>
     </section>
@@ -33,15 +34,52 @@
       </div>
     </section>
 
+    <section class="section" style="padding-top:0;" id="asistente">
+      <div class="container">
+        <div class="asistente">
+          <div class="asistente-cabeza">
+            <h2>Asistente FerroSuite</h2>
+            <span id="estado-asistente" class="etiqueta etiqueta-neutro">Revisando conexión…</span>
+          </div>
+          <p class="asistente-intro">
+            Te dice qué pedir antes de que se acabe, te recuerda los pagos a proveedores y las órdenes
+            por aprobar, y responde preguntas sobre tu inventario. El backend lee los datos
+            de la base y usa inteligencia artificial (Gemini) para explicarlos.
+          </p>
+          <div class="asistente-acciones">
+            <button type="button" id="btn-reposicion" class="btn btn-primary">Sugerir qué pedir</button>
+            <button type="button" id="btn-recordatorios" class="btn btn-ghost">Ver recordatorios</button>
+          </div>
+          <form id="form-pregunta" class="asistente-pregunta" novalidate>
+            <label for="texto-pregunta" class="solo-lector">Pregunta para el asistente</label>
+            <input type="text" id="texto-pregunta" maxlength="500" placeholder="Ej.: ¿qué me falta de plomería?" autocomplete="off" />
+            <button type="submit" class="btn btn-ghost">Preguntar</button>
+          </form>
+          <div class="asistente-ejemplos" aria-label="Preguntas de ejemplo">
+            <button type="button" class="chip" data-pregunta="¿Qué productos se me van a acabar esta semana?">¿Qué se acaba esta semana?</button>
+            <button type="button" class="chip" data-pregunta="¿Qué me falta de plomería?">¿Qué me falta de plomería?</button>
+            <button type="button" class="chip" data-pregunta="¿Cuánto tengo que pagarle a cada proveedor si hago los pedidos sugeridos?">¿Cuánto debo pagar a proveedores?</button>
+            <button type="button" class="chip" data-pregunta="¿Qué productos no se han vendido en el último mes?">¿Qué no se está vendiendo?</button>
+            <button type="button" class="chip" data-pregunta="Si solo tengo 1 millón de pesos esta semana, ¿qué pago y qué pido primero?">Si solo tengo 1 millón…</button>
+          </div>
+          <div id="respuesta-asistente" class="asistente-respuesta" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" style="padding-top:0;">
       <div class="container">
         <div class="section-head">
           <h2>Catálogo de productos</h2>
-          <p>Busca por SKU o por nombre. El estado se calcula con el stock mínimo de cada producto.</p>
+          <p>Busca por SKU, nombre o categoría. "Se acaba en" se calcula con las ventas de los últimos 30 días.</p>
         </div>
         <div class="barra-herramientas">
-          <input type="search" id="buscar-producto" placeholder="Buscar por SKU o nombre" aria-label="Buscar producto" />
+          <input type="search" id="buscar-producto" placeholder="Buscar por SKU, nombre o categoría" aria-label="Buscar producto" />
+          <select id="filtro-categoria" aria-label="Filtrar por categoría"><option value="">Todas las categorías</option></select>
+          <label class="check"><input type="checkbox" id="filtro-riesgo" /> Solo en riesgo</label>
+          <button type="button" id="btn-restablecer" class="btn-chico">Restaurar datos de prueba</button>
         </div>
+        <div id="mensajes-catalogo" class="form-mensajes"></div>
         <div id="tabla-productos"></div>
 
         <div class="paneles-dobles bloque-gap">
@@ -50,14 +88,15 @@
             <div id="form-movimiento"></div>
           </div>
           <div>
-            <h3>Agregar producto</h3>
+            <h3 id="titulo-form-producto">Agregar producto</h3>
             <div id="form-producto"></div>
+            <button type="button" id="btn-cancelar-edicion" class="btn btn-ghost" hidden>Cancelar edición</button>
           </div>
         </div>
 
         <div class="section-head bloque-gap">
-          <h2>Últimos movimientos</h2>
-          <p>Entradas y salidas registradas en esta sesión.</p>
+          <h2>Historial de movimientos</h2>
+          <p>Las 20 entradas y salidas más recientes, con motivo y usuario.</p>
         </div>
         <div id="tabla-movimientos"></div>
       </div>
@@ -73,13 +112,17 @@
   <script src="js/components/tabla.js"></script>
   <script src="js/components/formulario.js"></script>
   <script src="js/components/panelAlerta.js"></script>
+  <script src="js/components/panelAsistente.js"></script>
   <script src="js/components/encabezado.js"></script>
   <script src="js/components/pie.js"></script>
   <script src="js/main.js"></script>
   <script src="js/models/data.js"></script>
+  <script src="js/comunicacion/api.js"></script>
   <script src="js/services/inventarioService.js"></script>
   <script src="js/services/proveedoresService.js"></script>
   <script src="js/services/ordenesService.js"></script>
+  <script src="js/services/iaService.js"></script>
   <script src="js/controllers/inventario.js"></script>
+  <script src="js/controllers/asistente.js"></script>
 </body>
 </html>

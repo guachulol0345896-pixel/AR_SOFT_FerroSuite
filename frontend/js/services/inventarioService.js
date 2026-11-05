@@ -1,63 +1,72 @@
-// FerroSuite — Servicio de Inventario (capa de Aplicación del prototipo).
-// Aquí viven las reglas del negocio, separadas de cómo se ve la pantalla.
-// Regla de riesgo: un producto está en riesgo si su cantidad es menor o igual
-// al mínimo definido (la misma regla del prototipo en C#).
+// FerroSuite — Servicio de Inventario del frontend.
+// Hace una validación básica antes de enviar (para avisar rápido al usuario) y
+// pide al backend las operaciones. El backend vuelve a validar todo.
 window.FerroSuite = window.FerroSuite || {};
 
 FerroSuite.inventarioService = {
-  productoEnRiesgo(p) {
-    return p.stockActual <= p.stockMinimo;
+  listar() {
+    return FerroSuite.api.pedir("productos.listar");
   },
 
-  buscarProductosEnRiesgo() {
-    return modeloProductos.filter((p) => this.productoEnRiesgo(p));
+  listarMovimientos(limite) {
+    return FerroSuite.api.pedir("movimientos.listar", { limite });
   },
 
-  buscarPorTexto(texto) {
-    const t = texto.trim().toLowerCase();
-    if (!t) return modeloProductos.slice();
-    return modeloProductos.filter((p) => p.sku.toLowerCase().includes(t) || p.nombre.toLowerCase().includes(t));
+  resumen() {
+    return FerroSuite.api.pedir("resumen");
   },
 
-  // RF12: devuelve la lista de errores de un producto antes de guardarlo.
+  // Validación básica en pantalla: campos obligatorios y números.
   validarProducto(d) {
     const errores = [];
-    if (!d.nombre) errores.push("El nombre del producto es obligatorio.");
     if (!d.sku) errores.push("El SKU es obligatorio.");
-    if (d.sku && modeloProductos.some((p) => p.sku.toLowerCase() === d.sku.toLowerCase()))
-      errores.push("Ya existe un producto con ese SKU.");
-    const actual = Number(d.stockActual), minimo = Number(d.stockMinimo);
-    if (d.stockActual === "" || isNaN(actual) || actual < 0) errores.push("El stock actual debe ser un número igual o mayor que 0.");
-    if (d.stockMinimo === "" || isNaN(minimo) || minimo < 0) errores.push("El stock mínimo debe ser un número igual o mayor que 0.");
+    if (!d.nombre) errores.push("El nombre del producto es obligatorio.");
+    if (d.stockActual === "" || isNaN(Number(d.stockActual))) errores.push("El stock actual debe ser un número.");
+    if (d.stockMinimo === "" || isNaN(Number(d.stockMinimo))) errores.push("El stock mínimo debe ser un número.");
+    if (d.precioCompra !== "" && isNaN(Number(d.precioCompra))) errores.push("El precio de compra debe ser un número.");
     return errores;
   },
 
-  agregarProducto(d) {
-    const errores = this.validarProducto(d);
-    if (errores.length) return errores;
-    modeloProductos.push({
-      sku: d.sku, nombre: d.nombre, unidad: d.unidad,
+  // Convierte lo que se escribió en el formulario al formato que espera el backend.
+  paraEnviar(d) {
+    return {
+      sku: d.sku, nombre: d.nombre, categoria: d.categoria, unidad: d.unidad,
       stockActual: Number(d.stockActual), stockMinimo: Number(d.stockMinimo),
-    });
-    return [];
+      precioCompra: d.precioCompra === "" ? null : Number(d.precioCompra),
+      nitProveedor: d.nitProveedor || null,
+    };
   },
 
-  // RF05: registra una entrada o una salida y actualiza el stock del producto.
-  registrarMovimiento(d) {
-    const errores = [];
-    const producto = modeloProductos.find((p) => p.sku === d.sku);
-    const cantidad = Number(d.cantidad);
-    if (!producto) errores.push("Elige un producto.");
-    if (d.cantidad === "" || isNaN(cantidad) || cantidad <= 0) errores.push("La cantidad debe ser mayor que 0.");
-    if (producto && d.tipo === "Salida" && cantidad > producto.stockActual)
-      errores.push("No hay stock suficiente para esa salida (disponible: " + producto.stockActual + ").");
-    if (errores.length) return errores;
+  crear(d) {
+    return FerroSuite.api.pedir("productos.crear", this.paraEnviar(d));
+  },
 
-    producto.stockActual += d.tipo === "Entrada" ? cantidad : -cantidad;
-    modeloMovimientos.unshift({
-      fecha: new Date().toLocaleString("es-CO", { dateStyle: "short", timeStyle: "short" }),
-      sku: producto.sku, nombre: producto.nombre, tipo: d.tipo, cantidad,
+  actualizar(d) {
+    return FerroSuite.api.pedir("productos.actualizar", this.paraEnviar(d));
+  },
+
+  eliminar(sku) {
+    return FerroSuite.api.pedir("productos.eliminar", { sku });
+  },
+
+  validarMovimiento(d) {
+    const errores = [];
+    if (!d.sku) errores.push("Elige un producto.");
+    if (d.cantidad === "" || isNaN(Number(d.cantidad)) || Number(d.cantidad) <= 0) errores.push("La cantidad debe ser un número mayor que 0.");
+    return errores;
+  },
+
+  registrarMovimiento(d) {
+    let usuario = "Sin sesión";
+    try {
+      usuario = sessionStorage.getItem("ferrosuite-usuario") || usuario;
+    } catch (e) {}
+    return FerroSuite.api.pedir("movimientos.registrar", {
+      sku: d.sku, tipo: d.tipo, cantidad: Number(d.cantidad), motivo: d.motivo, usuario,
     });
-    return [];
+  },
+
+  restablecerDatos() {
+    return FerroSuite.api.pedir("datos.restablecer");
   },
 };

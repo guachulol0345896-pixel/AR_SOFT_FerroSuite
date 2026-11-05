@@ -1,32 +1,22 @@
-// FerroSuite — Servicio de Proveedores (capa de Aplicación del prototipo).
+// FerroSuite — Servicio de Proveedores del frontend.
 window.FerroSuite = window.FerroSuite || {};
 
 FerroSuite.proveedoresService = {
-  validarProveedor(d) {
+  listar() {
+    return FerroSuite.api.pedir("proveedores.listar");
+  },
+
+  validar(d) {
     const errores = [];
     if (!d.nombre) errores.push("El nombre del proveedor es obligatorio.");
     if (!d.nit) errores.push("El NIT es obligatorio.");
-    if (d.nit && modeloProveedores.some((p) => p.nit === d.nit)) errores.push("Ya existe un proveedor con ese NIT.");
-    const dias = Number(d.diasEntrega);
-    if (d.diasEntrega === "" || isNaN(dias) || dias < 0) errores.push("Los días de entrega deben ser un número igual o mayor que 0.");
+    if (d.diasEntrega === "" || !Number.isInteger(Number(d.diasEntrega))) errores.push("Los días de entrega deben ser un número entero.");
     return errores;
   },
 
-  agregarProveedor(d) {
-    const errores = this.validarProveedor(d);
-    if (errores.length) return errores;
-    modeloProveedores.push({
-      nombre: d.nombre, nit: d.nit, telefono: d.telefono || "—",
-      diasEntrega: Number(d.diasEntrega), cumplimiento: "—",
+  crear(d) {
+    return FerroSuite.api.pedir("proveedores.crear", {
+      nombre: d.nombre, nit: d.nit, telefono: d.telefono || null, diasEntrega: Number(d.diasEntrega),
     });
-    return [];
-  },
-
-  masRapido() {
-    return modeloProveedores.reduce((a, b) => (b.diasEntrega < a.diasEntrega ? b : a));
-  },
-
-  buscarPorNit(nit) {
-    return modeloProveedores.find((p) => p.nit === nit);
   },
 };
